@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GenerosController;
 use App\Http\Controllers\ArtistasController;
+use App\Http\Controllers\LanzamientosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,3 +29,5 @@ Route::get('/admin', function () {
 Route::resource('admin/gestion_generos', GenerosController::class);
 
 Route::resource('admin/gestion_artistas', ArtistasController::class);
+
+Route::resource('admin/gestion_lanzamientos', LanzamientosController::class);

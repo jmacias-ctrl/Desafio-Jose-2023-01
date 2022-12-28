@@ -21,6 +21,7 @@ class CreateLanzamientosTable extends Migration
             $table->date('fecha_lanzamiento');
             $table->integer('duracion');
             $table->integer('cantidad_canciones');
+            $table->string('caratula');
             $table->string('tipo');
 
             $table->foreign('id_genero')->references('id')->on('generos');

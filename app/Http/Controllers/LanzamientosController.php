@@ -14,7 +14,8 @@ class LanzamientosController extends Controller
      */
     public function index()
     {
-        //
+        $datos['lanzamientos'] = Lanzamientos::paginate(10);
+        return view('admin.gestion_lanzamientos.admin_gestor_lanzamientos', $datos);
     }
 
     /**
@@ -24,7 +25,7 @@ class LanzamientosController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.gestion_lanzamientos.admin_gestor_lanzamientos_create');
     }
 
     /**

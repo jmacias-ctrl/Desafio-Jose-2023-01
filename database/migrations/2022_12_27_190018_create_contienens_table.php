@@ -18,8 +18,10 @@ class CreateContienensTable extends Migration
             $table->unsignedBigInteger('id_lanzamiento');
             $table->unsignedBigInteger('id_cancion');
 
-            $table->foreign('id_lanzamiento')->references('id')->on('lanzamientos');
-            $table->foreign('id_cancion')->references('id')->on('canciones');
+            $table->foreign('id_lanzamiento')->references('id')->on('lanzamientos')->onDelete('CASCADE');
+            $table->foreign('id_cancion')->references('id')->on('canciones')->onDelete('CASCADE');
+
+            $table->timestamps();
         });
     }
 

@@ -10,7 +10,8 @@
             <div class="d-flex">
                 <label for="search" class="form-label fs-4 me-3">Buscar</label>
                 <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.." aria-label="Search">
-                <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_generos/create') }}" role="button">Crear nuevo lanzamiento</a>
+                <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_lanzamientos/create') }}"
+                    role="button">Crear nuevo lanzamiento</a>
             </div>
             <table class="table" id="infoGestion">
                 <thead>
@@ -33,26 +34,28 @@
                             <td>{{ $lanzamiento->fecha_lanzamiento }}</td>
                             <td>{{ $lanzamiento->duracion }}</td>
                             <td>{{ $lanzamiento->cantidad_canciones }}</td>
+                            <td><img src="{{ asset('storage') . '/' . $lanzamiento->caratula }}" alt="none"
+                                    style="width: 50px"></td>
+                            <td>{{ $lanzamiento->tipo }}</td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Action
-                                    </button>
+                                <div class="btn-group dropend">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false">Acciones</button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
-                                                href="{{ url('admin/gestion_generos/' . $lanzamiento->id . '/edit') }}"><span
-                                                    class="material-symbols-outlined">
-                                                    edit</a></li>
+                                                href="{{ url('admin/gestion_canciones/byRelease/' . $lanzamiento->id) }}">Gestionar
+                                                Canciones</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="{{ url('admin/gestion_lanzamientos/' . $lanzamiento->id . '/edit') }}">Editar
+                                            </a>
+                                        </li>
                                         <li>
-                                            <form action="{{ url('admin/gestion_generos/' . $lanzamiento->id) }}" method="POST">
+                                            <form action="{{ url('admin/gestion_lanzamientos/' . $lanzamiento->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-light"><span
-                                                            class="material-symbols-outlined">
-                                                            delete
-                                                        </span></button>
+                                                    <button type="submit" class="btn btn-light">Eliminar</button>
                                                 </div>
                                             </form>
                                         </li>

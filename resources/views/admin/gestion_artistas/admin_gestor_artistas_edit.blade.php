@@ -9,6 +9,7 @@
             @csrf
             {{method_field('PATCH')}}
             @include('admin.gestion_artistas.admin_gestor_artistas_form')
+            <hr>
             <div class="d-grid gap-2 my-4">
                 <input name="editarArtistas" id="submit" class="btn btn-primary" type="submit" value="Editar Artista">
             </div>

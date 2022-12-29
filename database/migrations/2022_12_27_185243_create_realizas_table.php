@@ -18,8 +18,10 @@ class CreateRealizasTable extends Migration
             $table->unsignedBigInteger('id_artista');
             $table->unsignedBigInteger('id_lanzamiento');
 
-            $table->foreign('id_artista')->references('id')->on('artistas');
-            $table->foreign('id_lanzamiento')->references('id')->on('lanzamientos');
+            $table->foreign('id_artista')->references('id')->on('artistas')->onDelete('CASCADE');
+            $table->foreign('id_lanzamiento')->references('id')->on('lanzamientos')->onDelete('CASCADE');
+
+            $table->timestamps();
         });
     }
 

@@ -16,15 +16,16 @@ class CreateLanzamientosTable extends Migration
         Schema::create('lanzamientos', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('id_genero');
+            $table->unsignedBigInteger('id_genero')->nullable();
             $table->string('nombre_lanzamiento');
+            $table->text('descripcion_lanzamiento');
             $table->date('fecha_lanzamiento');
             $table->integer('duracion');
             $table->integer('cantidad_canciones');
             $table->string('caratula');
             $table->string('tipo');
 
-            $table->foreign('id_genero')->references('id')->on('generos');
+            $table->foreign('id_genero')->references('id')->on('generos')->onDelete('SET NULL');
 
             $table->timestamps();
         });

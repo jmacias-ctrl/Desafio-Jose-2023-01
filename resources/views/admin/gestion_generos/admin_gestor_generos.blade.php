@@ -5,12 +5,17 @@
         <div class="align-self-center">
             <h4 class="my-4 ">Listado de Generos Musicales</h4>
         </div>
-
+        @if (Session::has('mensaje'))
+            <div class="align-self-center badge bg-success text-wrap my-2 fs-5" style="width: 15rem;">
+                {{ Session::get('mensaje') }}
+            </div>
+        @endif
         <div class="table-responsive caption-top">
             <div class="d-flex">
                 <label for="search" class="form-label fs-4 me-3">Buscar</label>
                 <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.." aria-label="Search">
-                <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_generos/create') }}" role="button">Crear nuevo genero</a>
+                <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_generos/create') }}"
+                    role="button">Crear nuevo genero</a>
             </div>
             <table class="table" id="infoGestion">
                 <thead>
@@ -35,18 +40,13 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
-                                                href="{{ url('admin/gestion_generos/' . $genero->id . '/edit') }}"><span
-                                                    class="material-symbols-outlined">
-                                                    edit</a></li>
+                                                href="{{ url('admin/gestion_generos/' . $genero->id . '/edit') }}">Editar</li>
                                         <li>
                                             <form action="{{ url('admin/gestion_generos/' . $genero->id) }}" method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-light"><span
-                                                            class="material-symbols-outlined">
-                                                            delete
-                                                        </span></button>
+                                                    <button type="submit" class="btn btn-light">Eliminar</button>
                                                 </div>
                                             </form>
                                         </li>

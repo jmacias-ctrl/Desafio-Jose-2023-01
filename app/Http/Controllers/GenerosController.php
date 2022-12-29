@@ -38,7 +38,7 @@ class GenerosController extends Controller
     {
         $datosGenero = request()->except(['_token','crearGenero']);
         Generos::insert($datosGenero);
-        return redirect('admin/gestion_generos');
+        return redirect('admin/gestion_generos')->with('mensaje','Genero Creado exitosamente');
     }
 
     /**
@@ -75,7 +75,7 @@ class GenerosController extends Controller
     {
         $datosGenero = request()->except(['_token','editarGenero','_method']);
         Generos::where('id','=',$id)->update($datosGenero);
-        return redirect('admin/gestion_generos');
+        return redirect('admin/gestion_generos')->with('mensaje','Genero Modificado exitosamente');
     }
 
     /**
@@ -88,6 +88,6 @@ class GenerosController extends Controller
     {
         //
         Generos::destroy($id);
-        return redirect('admin/gestion_generos');
+        return redirect('admin/gestion_generos')->with('mensaje','Genero Eliminado exitosamente');
     }
 }

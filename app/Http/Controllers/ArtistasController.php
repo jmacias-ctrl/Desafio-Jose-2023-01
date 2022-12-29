@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Artistas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArtistasController extends Controller
 {
@@ -14,7 +15,7 @@ class ArtistasController extends Controller
      */
     public function index()
     {
-        $datos['artistas'] = Artistas::paginate(5);
+        $datos['artistas'] = Artistas::paginate(7);
         return view('admin.gestion_artistas.admin_gestor_artistas', $datos);
     }
 
@@ -38,13 +39,13 @@ class ArtistasController extends Controller
     {
         $datosArtista = request()->except(['_token', 'crearArtista']);
 
-        if($request->hasFile('imagen_artista')){
-            $datosArtista['imagen_artista']=$request->file('imagen_artista')->store('uploads', 'public');
+        if ($request->hasFile('imagen_artista')) {
+            $datosArtista['imagen_artista'] = $request->file('imagen_artista')->store('uploads', 'public');
         }
 
         Artistas::insert($datosArtista);
 
-        return redirect('admin/gestion_generos');
+        return redirect('admin/gestion_artistas')->with('mensaje','Artista creado exitosamente');
     }
 
     /**
@@ -66,7 +67,7 @@ class ArtistasController extends Controller
      */
     public function edit($id)
     {
-        $artista=Artistas::findOrFail($id);
+        $artista = Artistas::findOrFail($id);
         return view('admin.gestion_artistas.admin_gestor_artistas_edit', compact('artista'));
     }
 
@@ -79,9 +80,17 @@ class ArtistasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $datosArtista = request()->except(['_token','editarArtistas','_method']);
-        Artistas::where('id','=',$id)->update($datosArtista);
-        return redirect('admin/gestion_artistas');
+        $datosArtista = request()->except(['_token', 'editarArtistas', '_method']);
+
+        if ($request->hasFile('imagen_artista')) {
+            $Artista = Artistas::findOrFail($id);
+            Storage::delete('public/' . $Artista->imagen_artista);
+
+            $datosArtista['imagen_artista'] = $request->file('imagen_artista')->store('uploads', 'public');
+        }
+
+        Artistas::where('id', '=', $id)->update($datosArtista);
+        return redirect('admin/gestion_artistas')->with('mensaje','Artista modificado exitosamente');
     }
 
     /**
@@ -92,7 +101,11 @@ class ArtistasController extends Controller
      */
     public function destroy($id)
     {
-        Artistas::destroy($id);
-        return redirect('admin/gestion_artistas');
+        $artista = Artistas::findOrFail($id);
+        if( Storage::delete('public/' . $artista->imagen_artista)){
+            Artistas::destroy($id);
+        }
+        
+        return redirect('admin/gestion_artistas')->with('mensaje','Artista eliminado exitosamente');
     }
 }

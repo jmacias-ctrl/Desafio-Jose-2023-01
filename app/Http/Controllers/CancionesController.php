@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Canciones;
+use App\Models\Lanzamientos;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CancionesController extends Controller
@@ -24,7 +26,7 @@ class CancionesController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.gestion_canciones.admin_gestor_canciones_create');
     }
 
     /**
@@ -35,7 +37,18 @@ class CancionesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datosCancion = request()->except(['_token', 'crearCancion']);
+        $lanzamiento = Lanzamientos::findOrFail($datosCancion['id_lanzamiento']);
+        if($lanzamiento->tipo=='Album' || ($lanzamiento->tipo=='Sencillo' && $lanzamiento->cantidad_canciones<1) || ($lanzamiento->tipo=='EP' && $lanzamiento->cantidad_canciones<3)){
+            Canciones::insert($datosCancion);
+            $lanzamiento->duracion= $lanzamiento->duracion + $datosCancion['duracion'];
+            $lanzamiento->cantidad_canciones= $lanzamiento->cantidad_canciones + 1;
+            $lanzamiento->save();
+            return redirect('admin/gestion_canciones/byRelease/'.$datosCancion['id_lanzamiento'])->with('mensaje', 'Cancion creado exitosamente');
+        }else{
+            return redirect('admin/gestion_canciones/byRelease/'.$datosCancion['id_lanzamiento'])->with('mensaje', 'Error: Supera el maximo de canciones de EP o Sencillo');
+        }
+        
     }
 
     /**
@@ -55,9 +68,10 @@ class CancionesController extends Controller
      * @param  \App\Models\Canciones  $canciones
      * @return \Illuminate\Http\Response
      */
-    public function edit(Canciones $canciones)
+    public function edit($id)
     {
-        //
+        $cancion = Canciones::findOrFail($id);
+        return view('admin.gestion_canciones.admin_gestor_canciones_edit', compact('cancion'));
     }
 
     /**
@@ -67,9 +81,15 @@ class CancionesController extends Controller
      * @param  \App\Models\Canciones  $canciones
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Canciones $canciones)
+    public function update(Request $request, $id)
     {
-        //
+        $datosCancion = request()->except(['_token', 'editarCancion', '_method']);
+        $lanzamiento = Lanzamientos::findOrFail($datosCancion['id_lanzamiento']);
+        $cancion = Canciones::findOrFail($id);
+        $lanzamiento->duracion = ($lanzamiento->duracion - $cancion->duracion) + $datosCancion['duracion'];
+        $lanzamiento->save();
+        Canciones::where('id', '=', $id)->update($datosCancion);
+        return redirect('admin/gestion_canciones/byRelease/'.$datosCancion['id_lanzamiento'])->with('mensaje','Cancion modificado exitosamente');
     }
 
     /**
@@ -78,8 +98,15 @@ class CancionesController extends Controller
      * @param  \App\Models\Canciones  $canciones
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Canciones $canciones)
+    public function destroy($id)
     {
-        //
+        $cancion = Canciones::findOrFail($id);
+        $id_lanzamiento = $cancion->id_lanzamiento;
+        $lanzamiento = Lanzamientos::findOrFail($id_lanzamiento);
+        $lanzamiento->duracion = $lanzamiento->duracion - $cancion->duracion;
+        $lanzamiento->cantidad_canciones = $lanzamiento->cantidad_canciones - 1;
+        $lanzamiento->save();
+        Canciones::destroy($id);
+        return redirect('admin/gestion_canciones/byRelease/'.$id_lanzamiento)->with('mensaje','Cancion eliminado exitosamente');
     }
 }

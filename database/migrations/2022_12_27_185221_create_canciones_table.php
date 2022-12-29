@@ -15,12 +15,14 @@ class CreateCancionesTable extends Migration
     {
         Schema::create('canciones', function (Blueprint $table) {
             $table->id();
-            
+            $table->unsignedBigInteger('id_lanzamiento')->nullable();
             $table->integer('num_pista');
             $table->string('titulo');
             $table->integer('duracion');
 
             $table->timestamps();
+
+            $table->foreign('id_lanzamiento')->references('id')->on('lanzamientos')->onDelete('CASCADE');
         });
     }
 

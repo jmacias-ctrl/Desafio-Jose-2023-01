@@ -19,7 +19,7 @@ class CreateArtistasTable extends Migration
             $table->string('nombre_artista');
             $table->date('fecha');
             $table->string('imagen_artista');
-            $table->string('descripcion_artista');
+            $table->text('descripcion_artista');
 
             $table->timestamps();
         });

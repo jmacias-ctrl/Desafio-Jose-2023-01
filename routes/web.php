@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Lanzamientos;
 use App\Http\Controllers\GenerosController;
 use App\Http\Controllers\ArtistasController;
 use App\Http\Controllers\CancionesController;
 use App\Http\Controllers\LanzamientosController;
 use App\Models\Canciones;
 use Illuminate\Support\Facades\DB;
-use App\Models\Lanzamientos;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +20,7 @@ use App\Models\Lanzamientos;
 |
 */
 
-Route::get('/admin/login', function () {
-    return view('admin.login');
-});
+
 
 Route::get('/admin/index', function () {
     return view('admin.admin_index');
@@ -44,11 +43,3 @@ Route::resource('admin/gestion_artistas', ArtistasController::class);
 Route::resource('admin/gestion_lanzamientos', LanzamientosController::class);
 
 Route::resource('admin/gestion_canciones', CancionesController::class);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

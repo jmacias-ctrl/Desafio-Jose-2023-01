@@ -19,6 +19,7 @@ class CreateCancionesTable extends Migration
             $table->integer('num_pista');
             $table->string('titulo');
             $table->integer('duracion');
+            $table->integer('reproducciones');
 
             $table->timestamps();
 

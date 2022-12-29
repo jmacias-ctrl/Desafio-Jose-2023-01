@@ -24,6 +24,7 @@ class CreateLanzamientosTable extends Migration
             $table->integer('cantidad_canciones');
             $table->string('caratula');
             $table->string('tipo');
+            $table->integer('reproducciones');
 
             $table->foreign('id_genero')->references('id')->on('generos')->onDelete('SET NULL');
 

@@ -26,6 +26,7 @@
                         <th scope="col">Titulo</th>
                         <th scope="col">Duracion (segundos)</th>
                         <th scope="col">Numero de Pista</th>
+                        <th scope="col">Reproducciones</th>
                         <th scope="col mx-auto">Acciones</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
                             <td>{{ $cancion->titulo }}</td>
                             <td>{{ $cancion->duracion }}</td>
                             <td>{{ $cancion->num_pista }}</td>
+                            <td>{{ $cancion->reproducciones }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"

@@ -20,6 +20,7 @@ class CreateArtistasTable extends Migration
             $table->date('fecha');
             $table->string('imagen_artista');
             $table->text('descripcion_artista');
+            $table->integer('reproducciones');
 
             $table->timestamps();
         });

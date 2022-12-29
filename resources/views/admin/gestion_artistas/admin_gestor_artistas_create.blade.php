@@ -8,6 +8,7 @@
         <form action="{{ url('admin/gestion_artistas') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('admin.gestion_artistas.admin_gestor_artistas_form')
+            <input type="hidden" name="reproducciones" value="0">
             <hr>
             <div class="d-grid gap-2 my-4">
                 <input id="submit" name="crearArtista" class="btn btn-primary" type="submit" value="Crear Artista">

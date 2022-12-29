@@ -26,6 +26,7 @@
                         <th scope="col">Imagen</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Descripcion</th>
+                        <th scope="col">Reproducciones</th>
                         <th scope="col mx-auto">Acciones</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                                     style="width: 50px"></td>
                             <td>{{ $artista->fecha }}</td>
                             <td>{{ $artista->descripcion_artista }}</td>
+                            <td>{{ $artista->reproducciones }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"

@@ -54,6 +54,7 @@ class LanzamientosController extends Controller
         $lanzamiento->descripcion_lanzamiento= $datosLanzamiento['descripcion_lanzamiento'];
         $lanzamiento->duracion = 0;
         $lanzamiento->cantidad_canciones = 0;
+        $lanzamiento->reproducciones = 0;
         $lanzamiento->caratula = $datosLanzamiento['caratula'];
         $lanzamiento->tipo = $datosLanzamiento['tipo'];
         $lanzamiento->save();

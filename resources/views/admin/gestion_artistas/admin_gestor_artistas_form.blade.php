@@ -1,4 +1,5 @@
 <div class="container-sm px-5">
+    
     <div class="mb-3">
         <label for="nombre_artista" class="form-label">Nombre del Artista</label>
         <input type="text" placeholder="Nombre Artista" class="form-control" id='nombre_artista' name='nombre_artista'

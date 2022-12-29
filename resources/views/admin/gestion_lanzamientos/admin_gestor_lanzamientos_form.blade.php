@@ -45,6 +45,8 @@
 
     <input type="hidden" name='cantidad_canciones' value='0'>
 
+    <input type="hidden" name='reproducciones' value='0'>
+    
     <div class="mb-3">
         <label for="tipo" class="form-label">Tipo de Lanzamiento</label>
         <select class="form-select" id="tipo" name="tipo" aria-label="Default select example"

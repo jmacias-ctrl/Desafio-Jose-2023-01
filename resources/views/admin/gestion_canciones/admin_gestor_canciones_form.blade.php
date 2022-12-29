@@ -18,4 +18,12 @@
             <span class="input-group-text" id="basic-addon2">Segundo(s)</span>
         </div>
     </div>
+    <div class="mb-3">
+        <label for="reprodduciones" class="form-label">Reproducciones</label>
+        <div class="input-group">
+            <input type="number" placeholder="Ej: 120" class="form-control" id='reproducciones' name='reproducciones'
+                value="{{ isset($cancion->reproducciones) ? $cancion->reproducciones : '' }}" required>
+            <span class="input-group-text" id="basic-addon2">Plays</span>
+        </div>
+    </div>
 </div>

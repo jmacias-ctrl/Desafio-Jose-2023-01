@@ -23,6 +23,7 @@
                         <th scope="col">Cantidad Canciones</th>
                         <th scope="col">Caratula</th>
                         <th scope="col">Tipo</th>
+                        <th scope="col">Reproducciones</th>
                         <th scope="col mx-auto">Acciones</th>
                     </tr>
                 </thead>
@@ -37,6 +38,7 @@
                             <td><img src="{{ asset('storage') . '/' . $lanzamiento->caratula }}" alt="none"
                                     style="width: 50px"></td>
                             <td>{{ $lanzamiento->tipo }}</td>
+                            <td>{{ $lanzamiento->reproducciones }}</td>
                             <td>
                                 <div class="btn-group dropend">
                                     <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false">Acciones</button>

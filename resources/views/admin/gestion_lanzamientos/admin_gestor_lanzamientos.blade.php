@@ -1,25 +1,43 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Gestión Lanzamiento | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm d-flex flex-column border rounded shadow">
         <div class="align-self-center">
             <h4 class="my-4 ">Listado de Lanzamientos Musicales</h4>
         </div>
-
-        <div class="table-responsive caption-top">
-            <div class="d-flex">
-                <label for="search" class="form-label fs-4 me-3">Buscar</label>
-                <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.." aria-label="Search">
+        @if (Session::has('mensaje'))
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('mensaje') }}
+            </div>
+        @endif
+        <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="inputPassword6" class="col-form-label fs-4">Buscar</label>
+                </div>
+                <div class="col-auto">
+                    <form action="{{ url('admin/gestion_lanzamientos') }}" method="GET">
+                        <input class="form-control" id="search" name="inputFilter" type="search"
+                            placeholder="Filtrar.." aria-label="Search">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success">Buscar</button>
+                </div>
+                </form>
+            </div>
+            <div class="d-flex my-2">
                 <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_lanzamientos/create') }}"
                     role="button">Crear nuevo lanzamiento</a>
             </div>
+        <div class="table-responsive caption-top">
+            
+
             <table class="table" id="infoGestion">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Fecha Lanzamiento</th>
-                        <th scope="col">Duracion</th>
+                        <th scope="col">Duración</th>
                         <th scope="col">Cantidad Canciones</th>
                         <th scope="col">Caratula</th>
                         <th scope="col">Tipo</th>
@@ -41,7 +59,9 @@
                             <td>{{ $lanzamiento->reproducciones }}</td>
                             <td>
                                 <div class="btn-group dropend">
-                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false">Acciones</button>
+                                    <button type="button" class="btn btn-dark dropdown-toggle"
+                                        data-bs-toggle="dropdown"aria-haspopup="true"
+                                        aria-expanded="false">Acciones</button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
                                                 href="{{ url('admin/gestion_canciones/byRelease/' . $lanzamiento->id) }}">Gestionar
@@ -68,8 +88,8 @@
                     @endforeach
                 </tbody>
             </table>
+            {!! $lanzamientos->links() !!}
         </div>
-
     </div>
     <script type="text/javascript">
         $(document).ready(function() {

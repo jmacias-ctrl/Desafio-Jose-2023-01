@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Generos;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class GenerosController extends Controller
 {
     /**
@@ -12,9 +12,14 @@ class GenerosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datos['generos'] = Generos::paginate(7);
+        $parametro = $request->get('inputFilter');
+        $datos['generos'] = DB::table('generos')
+                            ->where('id', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('nombre_genero', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('descripcion_genero', 'LIKE', '%'.$parametro.'%')
+                            ->paginate(7);
         return view('admin.gestion_generos.admin_gestor_generos', $datos);
     }
 

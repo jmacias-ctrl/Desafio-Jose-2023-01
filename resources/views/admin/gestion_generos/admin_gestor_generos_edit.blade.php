@@ -1,9 +1,9 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Editar Género | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm border rounded shadow">
         <div class="align-self-center">
-            <p class="my-4 p text-center fw-bold fs-3">Editar un nuevo genero</p>
+            <p class="my-4 p text-center fw-bold fs-3">Editar un nuevo género</p>
         </div>
         <form action="{{url('admin/gestion_generos/'.$genero->id)}}" method="POST">
             @csrf

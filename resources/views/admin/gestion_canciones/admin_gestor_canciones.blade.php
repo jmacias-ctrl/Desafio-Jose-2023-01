@@ -1,5 +1,5 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Gestión Canciones | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm d-flex flex-column border rounded shadow">
         <div class="align-self-center">
@@ -7,25 +7,29 @@
             <h5 class="my-1 ">Lanzamiento: {{ $lanzamiento->nombre_lanzamiento }}</h5>
         </div>
         @if (Session::has('mensaje'))
-            <div class="align-self-center badge bg-success text-wrap my-2 fs-5" style="width: 15rem;">
-                {{ Session::get('mensaje') }}
-            </div>
+            @if (Session::has('mensaje'))
+                <div class="alert alert-success" role="alert">
+                    {{ Session::get('mensaje') }}
+                </div>
+            @endif
         @endif
         <div class="table-responsive caption-top">
             <div class="d-flex">
                 <label for="search" class="form-label fs-4 me-3">Buscar</label>
-                <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.." aria-label="Search">
-                <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_canciones/create/'.$lanzamiento->id) }}"
-                    role="button">Crear nueva cancion</a>
+                <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.."
+                    aria-label="Search">
+                <a id="crearButton" class="btn btn-primary"
+                    href="{{ url('admin/gestion_canciones/create/' . $lanzamiento->id) }}" role="button">Crear nueva
+                    canción</a>
             </div>
             <table class="table" id="infoGestion">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">ID Lanzamiento</th>
-                        <th scope="col">Titulo</th>
-                        <th scope="col">Duracion (segundos)</th>
-                        <th scope="col">Numero de Pista</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Duración (segundos)</th>
+                        <th scope="col">Número de Pista</th>
                         <th scope="col">Reproducciones</th>
                         <th scope="col mx-auto">Acciones</th>
                     </tr>
@@ -47,9 +51,11 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
-                                                href="{{ url('admin/gestion_canciones/' . $cancion->id . '/edit') }}">Editar</a></li>
+                                                href="{{ url('admin/gestion_canciones/' . $cancion->id . '/edit') }}">Editar</a>
+                                        </li>
                                         <li>
-                                            <form action="{{ url('admin/gestion_canciones/' . $cancion->id) }}" method="POST">
+                                            <form action="{{ url('admin/gestion_canciones/' . $cancion->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}
                                                 <div class="d-flex">
@@ -64,6 +70,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {!! $canciones->links() !!}
         </div>
 
     </div>

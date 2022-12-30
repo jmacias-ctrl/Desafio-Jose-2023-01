@@ -21,7 +21,7 @@
 
     </div>
     <div class="my-3">
-        <label for="descripcion_genero" class="form-label">Descripcion del Artista</label>
+        <label for="descripcion_genero" class="form-label">Descripción del Artista</label>
         <textarea class="form-control" id='descripcion_genero' placeholder="Descripcion" name='descripcion_artista' required>@if(isset($artista->descripcion_artista)){{ $artista->descripcion_artista }}@endif</textarea>
     </div>
 </div>

@@ -1,5 +1,5 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Editar Artista | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm border rounded shadow">
         <div class="align-self-center">

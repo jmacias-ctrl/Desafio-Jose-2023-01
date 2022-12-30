@@ -1,28 +1,40 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Gestión Generos | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm d-flex flex-column border rounded shadow">
         <div class="align-self-center">
-            <h4 class="my-4 ">Listado de Generos Musicales</h4>
+            <h4 class="my-4 ">Listado de Géneros Musicales</h4>
         </div>
         @if (Session::has('mensaje'))
-            <div class="align-self-center badge bg-success text-wrap my-2 fs-5" style="width: 15rem;">
+            <div class="alert alert-success" role="alert">
                 {{ Session::get('mensaje') }}
             </div>
         @endif
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="inputPassword6" class="col-form-label fs-4">Buscar</label>
+            </div>
+            <div class="col-auto">
+                <form action="{{ url('admin/gestion_generos') }}" method="GET">
+                    <input class="form-control" id="search" name="inputFilter" type="search" placeholder="Filtrar.."
+                        aria-label="Search">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">Buscar</button>
+            </div>
+            </form>
+        </div>
         <div class="table-responsive caption-top">
             <div class="d-flex">
-                <label for="search" class="form-label fs-4 me-3">Buscar</label>
-                <input class="form-control me-2" id="inputFilter" type="search" placeholder="Filtrar.." aria-label="Search">
                 <a id="crearButton" class="btn btn-primary" href="{{ url('admin/gestion_generos/create') }}"
-                    role="button">Crear nuevo genero</a>
+                    role="button">Crear nuevo género</a>
             </div>
             <table class="table" id="infoGestion">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Descripcion</th>
+                        <th scope="col">Descripción</th>
                         <th scope="col mx-auto">Acciones</th>
                     </tr>
                 </thead>
@@ -36,11 +48,12 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        Action
+                                        Acciones
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item"
-                                                href="{{ url('admin/gestion_generos/' . $genero->id . '/edit') }}">Editar</li>
+                                                href="{{ url('admin/gestion_generos/' . $genero->id . '/edit') }}">Editar
+                                        </li>
                                         <li>
                                             <form action="{{ url('admin/gestion_generos/' . $genero->id) }}" method="POST">
                                                 @csrf
@@ -57,6 +70,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {!! $generos->links() !!}
         </div>
 
     </div>

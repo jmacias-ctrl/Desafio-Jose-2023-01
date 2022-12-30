@@ -1,9 +1,9 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Crear Canción | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm border rounded shadow my-5">
         <div class="align-self-center">
-            <p class="my-4 p text-center fw-bold fs-3">Crear una nueva cancion</p>
+            <p class="my-4 p text-center fw-bold fs-3">Crear una nueva canción</p>
         </div>
         <form action="{{ url('admin/gestion_canciones') }}" method="POST" enctype="multipart/form-data">
             @csrf

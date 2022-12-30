@@ -1,5 +1,5 @@
-@extends('admin.admin_header')
-
+@extends('layouts.app')
+<title>Crear Lanzamiento | Gestión | MusicWorld</title>
 @section('content')
     <div class="container-sm border rounded shadow my-5">
         <div class="align-self-center">

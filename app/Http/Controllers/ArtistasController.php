@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Artistas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\DB;
 class ArtistasController extends Controller
 {
     /**
@@ -13,9 +13,16 @@ class ArtistasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datos['artistas'] = Artistas::paginate(7);
+        $parametro = $request->get('inputFilter');
+        $datos['artistas'] = DB::table('artistas')
+                            ->where('id', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('nombre_artista', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('fecha', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('descripcion_artista', 'LIKE', '%'.$parametro.'%')
+                            ->orWhere('reproducciones', 'LIKE', '%'.$parametro.'%')
+                            ->paginate(7);
         return view('admin.gestion_artistas.admin_gestor_artistas', $datos);
     }
 

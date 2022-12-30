@@ -9,6 +9,7 @@ use App\Models\Generos;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 class LanzamientosController extends Controller
 {
     /**
@@ -16,9 +17,18 @@ class LanzamientosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datos['lanzamientos'] = Lanzamientos::paginate(10);
+        $parametro = $request->get('inputFilter');
+        $datos['lanzamientos'] = DB::table('lanzamientos')
+            ->where('id', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('nombre_lanzamiento', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('id_genero', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('descripcion_lanzamiento', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('fecha_lanzamiento', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('duracion', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('cantidad_canciones', 'LIKE', '%' . $parametro . '%')
+            ->orWhere('tipo', 'LIKE', '%' . $parametro . '%')->paginate(7);
         return view('admin.gestion_lanzamientos.admin_gestor_lanzamientos', $datos);
     }
 
@@ -29,9 +39,9 @@ class LanzamientosController extends Controller
      */
     public function create()
     {
-        $datos['generos'] = Generos::paginate(5);
-        $datos2['artistas'] = Artistas::paginate(2);
-        return view('admin.gestion_lanzamientos.admin_gestor_lanzamientos_create',$datos,$datos2);
+        $datos['generos'] = DB::select('select * from generos');
+        $datos2['artistas'] =  DB::select('select * from artistas');
+        return view('admin.gestion_lanzamientos.admin_gestor_lanzamientos_create', $datos, $datos2);
     }
 
     /**
@@ -48,10 +58,10 @@ class LanzamientosController extends Controller
             $datosLanzamiento['caratula'] = $request->file('caratula')->store('uploads', 'public');
         }
         $lanzamiento = new Lanzamientos();
-        $lanzamiento->nombre_lanzamiento= $datosLanzamiento['nombre_lanzamiento'];
-        $lanzamiento->id_genero= $datosLanzamiento['id_genero'];
-        $lanzamiento->fecha_lanzamiento= $datosLanzamiento['fecha_lanzamiento'];
-        $lanzamiento->descripcion_lanzamiento= $datosLanzamiento['descripcion_lanzamiento'];
+        $lanzamiento->nombre_lanzamiento = $datosLanzamiento['nombre_lanzamiento'];
+        $lanzamiento->id_genero = $datosLanzamiento['id_genero'];
+        $lanzamiento->fecha_lanzamiento = $datosLanzamiento['fecha_lanzamiento'];
+        $lanzamiento->descripcion_lanzamiento = $datosLanzamiento['descripcion_lanzamiento'];
         $lanzamiento->duracion = 0;
         $lanzamiento->cantidad_canciones = 0;
         $lanzamiento->reproducciones = 0;
@@ -62,11 +72,11 @@ class LanzamientosController extends Controller
         $id_lanzamiento = $lanzamiento->id;
 
         $realiza = new Realiza();
-        $realiza->id_artista= $datosLanzamiento['id_artista'];
+        $realiza->id_artista = $datosLanzamiento['id_artista'];
         $realiza->id_lanzamiento = $id_lanzamiento;
         $realiza->save();
-        
-        return redirect('admin/gestion_lanzamientos')->with('mensaje','Lanzamiento creado exitosamente');
+
+        return redirect('admin/gestion_lanzamientos')->with('mensaje', 'Lanzamiento creado exitosamente');
     }
 
     /**
@@ -89,7 +99,7 @@ class LanzamientosController extends Controller
     public function edit($id)
     {
         $lanzamiento = Lanzamientos::findOrFail($id);
-        $query = DB::table('realizas')->where('id_lanzamiento','=',$id)->first();
+        $query = DB::table('realizas')->where('id_lanzamiento', '=', $id)->first();
         $getIdartista = $query->id_artista;
 
         $datos['generos'] = Generos::paginate(5);
@@ -108,25 +118,25 @@ class LanzamientosController extends Controller
     {
         $datosLanzamiento = request()->except(['_token', 'editarlanzamiento', '_method']);
         $lanzamiento = Lanzamientos::findOrFail($id);
-        
+
         if ($request->hasFile('caratula')) {
             Storage::delete('public/' . $lanzamiento->caratula);
 
             $datosLanzamiento['caratula'] = $request->file('caratula')->store('uploads', 'public');
         }
-        $lanzamiento->nombre_lanzamiento= $datosLanzamiento['nombre_lanzamiento'];
-        $lanzamiento->id_genero= $datosLanzamiento['id_genero'];
-        $lanzamiento->fecha_lanzamiento= $datosLanzamiento['fecha_lanzamiento'];
-        $lanzamiento->descripcion_lanzamiento= $datosLanzamiento['descripcion_lanzamiento'];
-        if(isset($datosLanzamiento['caratula'])){
+        $lanzamiento->nombre_lanzamiento = $datosLanzamiento['nombre_lanzamiento'];
+        $lanzamiento->id_genero = $datosLanzamiento['id_genero'];
+        $lanzamiento->fecha_lanzamiento = $datosLanzamiento['fecha_lanzamiento'];
+        $lanzamiento->descripcion_lanzamiento = $datosLanzamiento['descripcion_lanzamiento'];
+        if (isset($datosLanzamiento['caratula'])) {
             $lanzamiento->caratula = $datosLanzamiento['caratula'];
         }
         $lanzamiento->tipo = $datosLanzamiento['tipo'];
         $lanzamiento->save();
 
-        DB::table('realizas')->where('id_lanzamiento','=',$id)->updateOrInsert(['id_artista'=> $datosLanzamiento['id_artista']]);
+        DB::table('realizas')->where('id_lanzamiento', '=', $id)->updateOrInsert(['id_artista' => $datosLanzamiento['id_artista']]);
 
-        return redirect('admin/gestion_lanzamientos')->with('mensaje','Lanzamiento modificado exitosamente');
+        return redirect('admin/gestion_lanzamientos')->with('mensaje', 'Lanzamiento modificado exitosamente');
     }
 
     /**
@@ -138,10 +148,10 @@ class LanzamientosController extends Controller
     public function destroy($id)
     {
         $lanzamiento = Lanzamientos::findOrFail($id);
-        if( Storage::delete('public/' . $lanzamiento->caratula)){
+        if (Storage::delete('public/' . $lanzamiento->caratula)) {
             Lanzamientos::destroy($id);
         }
-        
-        return redirect('admin/gestion_lanzamientos')->with('mensaje','Lanzamiento eliminado exitosamente');
+
+        return redirect('admin/gestion_lanzamientos')->with('mensaje', 'Lanzamiento eliminado exitosamente');
     }
 }

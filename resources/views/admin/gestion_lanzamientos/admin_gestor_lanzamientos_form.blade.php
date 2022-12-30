@@ -32,7 +32,7 @@
     </div>
 
     <div class="my-3">
-        <label for="descripcion_lanzamiento" class="form-label">Descripcion del lanzamiento</label>
+        <label for="descripcion_lanzamiento" class="form-label">Descripción del lanzamiento</label>
         <textarea class="form-control" id='descripcion_lanzamiento' placeholder="Descripcion" name='descripcion_lanzamiento'
             required>
 @if (isset($lanzamiento->descripcion_lanzamiento))
@@ -49,9 +49,8 @@
     
     <div class="mb-3">
         <label for="tipo" class="form-label">Tipo de Lanzamiento</label>
-        <select class="form-select" id="tipo" name="tipo" aria-label="Default select example"
-            value='{{ isset($lanzamiento->tipo) ? $lanzamiento->tipo : '' }}' required>
-            <option selected>Seleccionar Tipo de Lanzamiento</option>
+        <select class="form-select" id="tipo" name="tipo" aria-label="Default select example" required>
+            <option selected value='{{ isset($lanzamiento->tipo) ? $lanzamiento->tipo : '' }}'>Actual: {{ isset($lanzamiento->tipo) ? $lanzamiento->tipo : 'Seleccionar Tipo de Lanzamiento' }}</option>
             <option value="Album">Album</option>
             <option value="EP">EP</option>
             <option value="Sencillo">Sencillo</option>
